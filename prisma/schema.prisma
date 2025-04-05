@@ -1,0 +1,44 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "windows"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Note {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  tagsJson  String?  // Store tags as a JSON string
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  files     File[]   // Relation to attached files
+  tabs      Tab[]
+}
+
+model File {
+  id        String   @id @default(cuid())
+  filename  String   // Original filename
+  path      String   // Path to the file in the uploads folder
+  mimetype  String   // File MIME type
+  size      Int      // File size in bytes
+  createdAt DateTime @default(now())
+  note      Note     @relation(fields: [noteId], references: [id], onDelete: Cascade)
+  noteId    String
+}
+
+model Tab {
+  id        String   @id @default(uuid())
+  noteId    String
+  name      String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  note      Note     @relation(fields: [noteId], references: [id], onDelete: Cascade)
+  
+  @@index([noteId])
+} 
