@@ -6,16 +6,15 @@ First, run the development server:
 
 ```bash
 make sure you install node JS
-run
-npm -i in the project folder
+git clone https://github.com/Tyler-Vibe/notetoself/
+then run
+npm install in the project folder -notetoself
 then you can run
+npx prisma generate
+and then run
+npx prisma db push
+then you can run 
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
